@@ -3,8 +3,9 @@ localhost:2015 {
 }
 import /etc/caddy/*.caddyfile
 {{ range $container := whereExist $ "Env.CADDY_HOST" }}
-{{ $container.Env.CADDY_HOST }} {
+https://{{ $container.Env.CADDY_HOST }} {
   {{ if contains $container.Env "CADDY_DISABLE_TLS" }}tls off{{ end }}
+  {{ if contains $container.Env "CADDY_TLS_SELFSIGNED" }}tls self_signed{{ end }}
   gzip
   log stdout
   errors stdout
